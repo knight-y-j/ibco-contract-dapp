@@ -2,10 +2,10 @@
 pragma solidity ^0.8.13;
 
 import {Test, console2} from "forge-std/Test.sol";
-import {DummyHegicTokenERC20} from "src/Treasury/DummyHegicTokenERC20.sol";
+import {DummyTokenERC20} from "src/IBCO/DummyTokenERC20.sol";
 
 contract TestDummyTokenERC20 is Test {
-    DummyHegicTokenERC20 htoken;
+    DummyTokenERC20 htoken;
     address owner;
     address investor;
     uint256 constant initialSupply = 1200000000 * (10 ** 18);
@@ -15,7 +15,7 @@ contract TestDummyTokenERC20 is Test {
         investor = makeAddr("Rabbit");
 
         vm.prank(owner);
-        htoken = new DummyHegicTokenERC20();
+        htoken = new DummyTokenERC20();
     }
 
     function test_IsseuTokenReturnBalance_byOwner() public {

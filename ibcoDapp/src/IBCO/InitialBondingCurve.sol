@@ -37,7 +37,7 @@ interface IFInitialBondingCurve {
     function withdrawUnclaimedHEGIC() external;
 }
 
-interface EvenInitialBondingCurve {
+interface EventInitialBondingCurve {
     // event
     /**
      * ReceivedEvent
@@ -163,7 +163,7 @@ contract Ownerable {
     }
 }
 
-contract HegicInitialBondingCurve is
+contract InitialBondingCurve is
     IFInitialBondingCurve,
     EventInitialBondingCurve,
     ErrorInitialBondingCurve,
