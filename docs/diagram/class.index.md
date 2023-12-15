@@ -25,7 +25,7 @@ title: Diagram for Hegic IBCO(Initial Bonding Curve Offering)
 
 1. Player = Investor
 2. Owner = Contract owner
-3. Contract = HIBCO(Hegic Initial Bonding Curve Offering) Contract
+3. Contract = Initial Bonding Curve Offering Contract
 
 -----
 
