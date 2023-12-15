@@ -10,7 +10,7 @@ title: Diagram for Hegic IBCO(Initial Bonding Curve Offering)
 
 ### Business logic
 
-1. `HegicInitialOffering` contract
+1. `InitialOffering` contract
 
 -----
 
@@ -46,7 +46,7 @@ flowchart LR
             withdrawUnclaimedHEGIC[withdraw unclaimedHEGIC]
         end
         subgraph "Hegic Initial Offering"
-        HegicInitialOfferingCOntract((HIO Contract))
+        InitialOfferingCOntract((HIO Contract))
         end
         subgraph "Event"
         IBCOEvent((IBCO Event))
@@ -56,23 +56,23 @@ flowchart LR
     User -->|call| claim
     Contract_Owner -->|ETH| receive
     Contract_Owner -->|call| claim
-    receive -->|payable| HegicInitialOfferingCOntract
-    claim -->|claim| HegicInitialOfferingCOntract
-    HegicInitialOfferingCOntract -->|return| claim
+    receive -->|payable| InitialOfferingCOntract
+    claim -->|claim| InitialOfferingCOntract
+    InitialOfferingCOntract -->|return| claim
 
-    HegicInitialOfferingCOntract -->|Received| IBCOEvent
-    HegicInitialOfferingCOntract -->|Climed| IBCOEvent
+    InitialOfferingCOntract -->|Received| IBCOEvent
+    InitialOfferingCOntract -->|Climed| IBCOEvent
 
     Contract_Owner -->|execute| withdrawProvidedETH
     Contract_Owner -->|execute| withdrawHEGIC
     Contract_Owner -->|execute| withdrawUnclaimedHEGIC
 
-    withdrawProvidedETH -->|withdraw| HegicInitialOfferingCOntract
-    withdrawHEGIC -->|withdraw| HegicInitialOfferingCOntract
-    withdrawUnclaimedHEGIC -->|withdraw| HegicInitialOfferingCOntract
-    HegicInitialOfferingCOntract -->|return| withdrawProvidedETH
-    HegicInitialOfferingCOntract -->|return| withdrawHEGIC
-    HegicInitialOfferingCOntract -->|return| withdrawUnclaimedHEGIC
+    withdrawProvidedETH -->|withdraw| InitialOfferingCOntract
+    withdrawHEGIC -->|withdraw| InitialOfferingCOntract
+    withdrawUnclaimedHEGIC -->|withdraw| InitialOfferingCOntract
+    InitialOfferingCOntract -->|return| withdrawProvidedETH
+    InitialOfferingCOntract -->|return| withdrawHEGIC
+    InitialOfferingCOntract -->|return| withdrawUnclaimedHEGIC
 ```
 
 -----
@@ -86,16 +86,16 @@ classDiagram
 
   }
 
-  Investor --> IHegicInitialOffering: call
+  Investor --> IFInitialOffering: call
 
   class Owner {
 
   }
 
-  Owner --> IHegicInitialOffering: call
+  Owner --> IFInitialOffering: call
 
-  note for IHegicInitialOffering "Interface HegicInitialOffering"
-  class IHegicInitialOffering {
+  note for IFInitialOffering "Interface InitialOffering"
+  class IFInitialOffering {
     +receive()
     +claim()
     +withdrawProvidedETH()
@@ -103,14 +103,14 @@ classDiagram
     +withdrawUnclaimedHEGIC()
   }
 
-  note for EventHegicInitialOffering "Event Interface HegicInitialOffering"
-  class EventHegicInitialOffering {
+  note for EventInitialOffering "Event Interface InitialOffering"
+  class EventInitialOffering {
     -ClaimedEvent(address indexed account, uint256 userShare, uint256 hegicAmount)
     -ReceivedEvent(address indexed account, uint256 amount)
   }
 
-  note for ErrorHegicInitialOffering "Error Interface HegicInitialOffering"
-  class ErrorHegicInitialOffering {
+  note for ErrorInitialOffering "Error Interface InitialOffering"
+  class ErrorInitialOffering {
     -OfferingHasNotStartedYet()
     -OfferingHasAlreadyEnded()
     -OfferingMustBeCompleted()
@@ -119,11 +119,11 @@ classDiagram
     -WithdrawUnavailableYet()
   }
 
-  HegicInitialOffering ..|> IHegicInitialOffering: implementation
-  HegicInitialOffering ..|> EventHegicInitialOffering: implementation
-  HegicInitialOffering ..|> ErrorHegicInitialOffering: implementation
+  InitialOffering ..|> IFInitialOffering: implementation
+  InitialOffering ..|> EventInitialOffering: implementation
+  InitialOffering ..|> ErrorInitialOffering: implementation
 
-  class HegicInitialOffering {
+  class InitialOffering {
     +HEGIC IERC20
     +SafeERC20 IERC20
     +START uint256
@@ -147,13 +147,13 @@ classDiagram
     -WithdrawUnavailableYet()
   }
 
-  HegicInitialOffering --> Blockchain: txn
+  InitialOffering --> Blockchain: txn
 
   class Blockchaon {
 
   }
 
-  HegicInitialOffering ..|> IERC20
+  InitialOffering ..|> IERC20
 
   note for IERC20 "Interface ERC20"
   class IERC20 {
@@ -166,12 +166,11 @@ classDiagram
 
   }
 
-  note for Ownable "Abstract class"
   class Ownable {
 
   }
 
-  HegicInitialOffering --|> Ownable
+  InitialOffering --|> Ownable
 ```
 
 -----
