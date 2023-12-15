@@ -294,26 +294,6 @@ error WithdrawUnavailableYet(address acount_, uint256 timestamp_);
    2. `block.timestamp <= END` The offering has already ended
    `require(block.timestamp <= END, "The offering has already ended");`
 
-```mermaid
-   flowchart TD
-
-    Caller -- call --> Contract[Contract];
-    Contract -- execution --> Receive[receive];
-    subgraph Require_START_TIME
-    Receive -- execution --> RequirementOne{START <= block.timestamp};
-    end
-    subgraph Require_END_TIME
-    RequirementOne -- True --> RequirementSecond{block.timestamp <= END};
-    end
-    RequirementSecond -- True --> Execution[Execution feature];
-    subgraph Revert_Error_Message
-    RequirementOne -- False --> ErrorSTART["The offering has not started yet"];
-    RequirementSecond -- False --> ErrorEND["The offering has already ended"];
-    ErrorSTART --> Revert[Revert]
-    ErrorEND --> Revert[Revert]
-    end
-```
-
 2. claim
 
 - block.timestamp > END && provided[msg.sender] > 0
@@ -321,26 +301,6 @@ error WithdrawUnavailableYet(address acount_, uint256 timestamp_);
   `require(block.timestamp > END, "The offering must be completed");`
   2. `provided[msg.sender] > 0` provided amount is empty
   `require(provided[msg.sender] > 0, "provided amount is empty");`
-
-```mermaid
-  flowchart TD
-
-  Caller -- call --> Contract[Contract];
-  Contract -- execution --> Claim[claim];
-  subgraph Require_END_TIME
-  Claim -- execution --> RequirementOne{block.timestamp > END};
-  end
-  subgraph Require_Provided_Amount
-  RequirementOne -- True --> RequirementSecond{provided > 0};
-  end
-  RequirementSecond -- True --> Execution[Execution feature];
-  subgraph Revert_Error_Message
-  RequirementOne -- False --> ErrorEND["The offering must be completed"];
-  RequirementSecond -- False --> ErrorAmount["provided amount is empty"];
-  ErrorEND --> Revert[Revert]
-  ErrorAmount --> Revert[Revert]
-  end
-```
 
 3. withdrawProvidedETH
 
@@ -350,26 +310,6 @@ error WithdrawUnavailableYet(address acount_, uint256 timestamp_);
   2. `totalProvided >= MINIMAL_PROVIDE_AMOUNT` The required amount has not been provided
   `require(totalProvided >= MINIMAL_PROVIDE_AMOUNT,"The required amount has not been provided!");`
 
-```mermaid
-   flowchart TD
-
-    OnlyOwner -- call --> Contract[Contract];
-    Contract -- execution --> Withdraw[withdrawProvidedETH];
-    subgraph Require_END_TIME
-    Withdraw -- execution --> RequirementOne{block.timestamp > END};
-    end
-    subgraph Require_TotalProvided_Amount
-    RequirementOne -- True --> RequirementSecond{totalProvided >= MINIMAL_PROVIDE_AMOUNT};
-    end
-    RequirementSecond -- True --> Execution[Execution feature];
-    subgraph Revert_Error_Message
-    RequirementOne -- False --> ErrorEND["The offering must be completed"];
-    RequirementSecond -- False --> ErrorAmount["The required amount has not been provided"];
-    ErrorEND --> Revert[Revert]
-    ErrorAmount --> Revert[Revert]
-    end
-```
-
 4. withdrawHEGIC
 
 - block.timestamp > END && totalProvided < MINIMAL_PROVIDE_AMOUNT
@@ -378,49 +318,12 @@ error WithdrawUnavailableYet(address acount_, uint256 timestamp_);
   2. `totalProvided < MINIMAL_PROVIDE_AMOUNT` The required amount has been provided
   `require(totalProvided < MINIMAL_PROVIDE_AMOUNT,"The required amount has been provided!");`
 
-```mermaid
-  flowchart TD
-
-  OnlyOwner -- call --> Contract[Contract];
-  Contract -- execution --> Withdraw[withdrawProvidedETH];
-  subgraph Require_END_TIME
-  Withdraw -- execution --> RequirementOne{block.timestamp > END};
-  end
-  subgraph Require_TotalProvided_Amount
-  RequirementOne -- True --> RequirementSecond{totalProvided < MINIMAL_PROVIDE_AMOUNT};
-  end
-  RequirementSecond -- True --> Execution[Execution feature];
-  subgraph Revert_Error_Message
-  RequirementOne -- False --> ErrorEND["The offering must be completed"];
-  RequirementSecond -- False --> ErrorAmount["The required amount has been provided"];
-  ErrorEND --> Revert[Revert]
-  ErrorAmount --> Revert[Revert]
-  end
-```
-
 5. withdrawUnclaimedHEGIC
 
 - END + 30 days < block.timestamp
   1. `END + 30 days < block.timestamp` Withdrawal unavailable yet
   `require(END + 30 days < block.timestamp, "Withdrawal unavailable yet");`
 
-```mermaid
-   flowchart TD
-
-    OnlyOwner -- call --> Contract[Contract];
-    Contract -- execution --> Withdraw[withdrawUnclaimedHEGIC];
-    subgraph Require_END_TIME
-    Withdraw -- execution --> RequirementOne{END + 30 days < block.timestamp};
-    end
-    RequirementOne -- True --> Execution[Execution feature];
-    subgraph Revert_Error_Message
-    RequirementOne -- False --> ErrorEND["Withdrawal unavailable yet"];
-    ErrorEND --> Revert[Revert]
-    end
-```
-
 -----
 
 ## MEMO
-
-- [mermaid sequece on](https://ja.astahblog.com/2023/05/26/mermaid_sequence_on_vscode/)
