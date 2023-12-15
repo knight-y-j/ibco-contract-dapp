@@ -149,7 +149,7 @@ classDiagram
 
   InitialOffering --> Blockchain: txn
 
-  class Blockchaon {
+  class Blockchain {
 
   }
 
