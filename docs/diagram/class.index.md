@@ -45,8 +45,8 @@ flowchart LR
             withdrawHEGIC[withdraw HEGIC]
             withdrawUnclaimedHEGIC[withdraw unclaimedHEGIC]
         end
-        subgraph "Hegic Initial Offering"
-        InitialOfferingCOntract((HIO Contract))
+        subgraph "Initial Bonding Curve Offering"
+        InitialOfferingCOntract((IBCO Contract))
         end
         subgraph "Event"
         IBCOEvent((IBCO Event))
